@@ -1,0 +1,4 @@
+curl -X POST "http://127.0.0.1:8000/api/posts" \
+-H "Authorization: Bearer YOUR_ACCESS_TOKEN" \
+-H "Content-Type: application/json" \
+-d '{"content": "Hello World!"}'
