@@ -17,6 +17,14 @@ Route::middleware('auth:sanctum')->group(function () {
         return $request->user();
     });
 
+    //User Profile Information
+    Route::get('/profile', [AuthController::class, 'me']);
+    Route::put('/profile', [AuthController::class, 'updateProfile']);
+
+    //Profile Image Uploads
+    Route::middleware('auth:sanctum')->post('/profile/avatar', [AuthController::class, 'uploadAvatar']);
+
+    //Posts
     Route::get('/posts', [PostController::class, 'index']);
     Route::post('/posts', [PostController::class, 'store']);
     Route::get('/posts/{id}', [PostController::class, 'show']);

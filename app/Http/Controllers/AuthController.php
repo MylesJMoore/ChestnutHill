@@ -57,4 +57,47 @@ class AuthController extends Controller
     {
         return response()->json($request->user());
     }
+
+    public function me(Request $request)
+    {
+        return response()->json($request->user());
+    }
+
+    public function updateProfile(Request $request)
+    {
+        $request->validate([
+            'name' => 'string|max:255',
+            'bio' => 'nullable|string',
+        ]);
+
+        $user = $request->user();
+        $user->update($request->only(['name', 'bio']));
+
+        return response()->json([
+            'message' => 'Profile updated successfully',
+            'user' => $user
+        ]);
+    }
+
+    public function uploadAvatar(Request $request)
+    {
+        $request->validate([
+            'avatar' => 'required|image|mimes:jpeg,png,jpg,gif|max:2048',
+        ]);
+
+        $user = $request->user();
+
+        $file = $request->file('avatar');
+        $filename = uniqid() . '.' . $file->getClientOriginalExtension();
+
+        $file->storeAs('public/avatars', $filename);
+
+        $user->avatar_path = $filename;
+        $user->save();
+
+        return response()->json([
+            'message' => 'Avatar uploaded successfully',
+            'avatar_url' => url('storage/avatars/' . $filename),
+        ]);
+    }
 }
