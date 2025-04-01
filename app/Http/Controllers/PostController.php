@@ -13,7 +13,10 @@ class PostController extends Controller
         $posts = Post::with([
             'user:id,name,avatar_path',
             'comments.user:id,name,avatar_path'
-        ])->latest()->get();
+        ])
+        ->withCount('likes')
+        ->latest()
+        ->get();
 
         return response()->json($posts);
     }
@@ -42,7 +45,12 @@ class PostController extends Controller
     public function show($id)
     {
         try {
-            $post = Post::with(['comments'])->findOrFail($id);
+            $post = Post::with([
+                'user:id,name,avatar_path',
+                'comments.user:id,name,avatar_path'
+            ])
+            ->withCount('likes')
+            ->findOrFail($id);
             return response()->json($post);
         } catch (\Illuminate\Database\Eloquent\ModelNotFoundException $e) {
             return response()->json([
