@@ -38,6 +38,11 @@ class User extends Authenticatable
         return $this->belongsToMany(User::class, 'follows', 'follower_id', 'following_id');
     }
 
+    public function savedPosts()
+    {
+        return $this->belongsToMany(Post::class, 'post_user_saves')->withTimestamps();
+    }
+
     // Optional: Append full URL
     protected $appends = ['avatar_url'];
 

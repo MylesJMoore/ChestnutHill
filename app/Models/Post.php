@@ -25,4 +25,9 @@ class Post extends Model
     {
         return $this->hasMany(Like::class);
     }
+
+    public function savedByUsers()
+    {
+        return $this->belongsToMany(User::class, 'post_user_saves')->withTimestamps();
+    }
 }

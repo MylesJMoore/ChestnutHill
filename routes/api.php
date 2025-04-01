@@ -6,6 +6,7 @@ use App\Http\Controllers\AuthController;
 use App\Http\Controllers\PostController;
 use App\Http\Controllers\CommentController;
 use App\Http\Controllers\LikeController;
+use App\Http\Controllers\SavePostController;
 
 // Public authentication routes
 Route::post('/register', [AuthController::class, 'register']);
@@ -40,4 +41,8 @@ Route::middleware('auth:sanctum')->group(function () {
     //Likes
     Route::post('/posts/{id}/like', [LikeController::class, 'store']);
     Route::delete('/posts/{id}/like', [LikeController::class, 'destroy']);
+
+    //Saved Posts
+    Route::post('/posts/{id}/save', [SavePostController::class, 'toggleSave']);
+    Route::get('/saved-posts', [SavePostController::class, 'savedPosts']);
 });
