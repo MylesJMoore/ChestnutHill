@@ -28,16 +28,18 @@ class User extends Authenticatable
         return $this->hasMany(Like::class);
     }
 
-    public function followers()
-    {
-        return $this->belongsToMany(User::class, 'follows', 'following_id', 'follower_id');
-    }
-
+    // Users that THIS user is following
     public function following()
     {
-        return $this->belongsToMany(User::class, 'follows', 'follower_id', 'following_id');
+        return $this->belongsToMany(User::class, 'follows', 'follower_id', 'followed_user_id');
     }
 
+    // Users that are following THIS user
+    public function followers()
+    {
+        return $this->belongsToMany(User::class, 'follows', 'followed_user_id', 'follower_id');
+    }
+    
     public function savedPosts()
     {
         return $this->belongsToMany(Post::class, 'post_user_saves')->withTimestamps();

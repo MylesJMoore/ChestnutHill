@@ -103,4 +103,22 @@ class PostController extends Controller
             return response()->json(['error' => 'Post not found.'], 404);
         }
     }
+
+    public function search(Request $request)
+    {
+        $query = $request->input('q');
+
+        $posts = Post::with(['user:id,name,avatar_path', 'comments'])
+            ->where('content', 'like', '%' . $query . '%')
+            ->latest()
+            ->get();
+
+        if ($posts->isEmpty()) {
+            return response()->json([
+                'message' => 'No posts found matching your query.'
+            ], 200); // 200 so it's not an error
+        }
+
+        return response()->json($posts);
+    }
 }
