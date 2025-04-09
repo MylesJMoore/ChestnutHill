@@ -33,4 +33,23 @@ class FollowController extends Controller
 
         return response()->json(['message' => 'Unfollowed successfully']);
     }
+
+    public function toggleFollow($userId)
+    {
+        $user = Auth::user();
+
+        if ($user->id == $userId) {
+            return response()->json(['error' => 'You cannot follow yourself'], 400);
+        }
+
+        $isFollowing = $user->following()->where('followed_user_id', $userId)->exists();
+
+        if ($isFollowing) {
+            $user->following()->detach($userId);
+            return response()->json(['message' => 'Unfollowed user']);
+        } else {
+            $user->following()->attach($userId);
+            return response()->json(['message' => 'Followed user']);
+        }
+    }
 }

@@ -121,4 +121,32 @@ class PostController extends Controller
 
         return response()->json($posts);
     }
+
+    public function hide($id)
+    {
+        $post = Post::findOrFail($id);
+
+        if ($post->user_id !== Auth::id()) {
+            return response()->json(['error' => 'Unauthorized'], 403);
+        }
+
+        $post->hidden = true;
+        $post->save();
+
+        return response()->json(['message' => 'Post hidden']);
+    }
+
+    public function unhide($id)
+    {
+        $post = Post::findOrFail($id);
+
+        if ($post->user_id !== Auth::id()) {
+            return response()->json(['error' => 'Unauthorized'], 403);
+        }
+
+        $post->hidden = false;
+        $post->save();
+
+        return response()->json(['message' => 'Post unhidden']);
+    }
 }

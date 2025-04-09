@@ -27,11 +27,13 @@ Route::middleware('auth:sanctum')->group(function () {
 
     // Posts
     Route::get('/posts', [PostController::class, 'index']);
-    Route::get('/posts/search', [PostController::class, 'search']); // ✅ Move this above {id}
+    Route::get('/posts/search', [PostController::class, 'search']);
     Route::post('/posts', [PostController::class, 'store']);
     Route::get('/posts/{id}', [PostController::class, 'show']);
     Route::put('/posts/{id}', [PostController::class, 'update']);
     Route::delete('/posts/{id}', [PostController::class, 'destroy']);
+    Route::put('/posts/{id}/hide', [PostController::class, 'hide']);
+    Route::put('/posts/{id}/unhide', [PostController::class, 'unhide']);
 
     // Comments
     Route::post('/posts/{post}/comments', [CommentController::class, 'store']);
@@ -54,4 +56,5 @@ Route::middleware('auth:sanctum')->group(function () {
     // Follow/Unfollow Users
     Route::post('/users/{id}/follow', [FollowController::class, 'follow']);
     Route::delete('/users/{id}/unfollow', [FollowController::class, 'unfollow']);
+    Route::post('/users/{id}/toggle-follow', [FollowController::class, 'toggleFollow']);
 });
