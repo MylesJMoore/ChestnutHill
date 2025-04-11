@@ -15,6 +15,7 @@ class PostController extends Controller
             'comments.user:id,name,avatar_path'
         ])
         ->withCount('likes')
+        ->where('hidden', false)
         ->latest()
         ->get();
 
@@ -51,11 +52,14 @@ class PostController extends Controller
             ])
             ->withCount('likes')
             ->findOrFail($id);
+
+            if ($post->hidden && $post->user_id !== Auth::id()) {
+                return response()->json(['error' => 'Post not found.'], 404);
+            }
+
             return response()->json($post);
         } catch (\Illuminate\Database\Eloquent\ModelNotFoundException $e) {
-            return response()->json([
-                'error' => 'Post not found.'
-            ], 404);
+            return response()->json(['error' => 'Post not found.'], 404);
         }
     }
 
@@ -109,6 +113,7 @@ class PostController extends Controller
         $query = $request->input('q');
 
         $posts = Post::with(['user:id,name,avatar_path', 'comments'])
+            ->where('hidden', false)
             ->where('content', 'like', '%' . $query . '%')
             ->latest()
             ->get();
@@ -116,7 +121,7 @@ class PostController extends Controller
         if ($posts->isEmpty()) {
             return response()->json([
                 'message' => 'No posts found matching your query.'
-            ], 200); // 200 so it's not an error
+            ], 200);
         }
 
         return response()->json($posts);
