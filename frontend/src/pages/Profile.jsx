@@ -9,16 +9,14 @@ export default function Profile() {
   useEffect(() => {
     async function fetchData() {
       try {
-        const userRes = await fetchWithAuth("/profile");
-        const userData = await userRes.json();
-        setUser(userData);
-
-        const postsRes = await fetchWithAuth("/posts");
-        const allPosts = await postsRes.json();
+        const userData = await fetchWithAuth("/profile");
+        const allPosts = await fetchWithAuth("/posts");
         const userPosts = allPosts.filter((post) => post.user?.id === userData.id);
+
+        setUser(userData);
         setPosts(userPosts);
-      } catch (err) {
-        console.error("❌ Error fetching profile or posts:", err);
+      } catch (error) {
+        console.error("❌ Error fetching profile or posts:", error);
       } finally {
         setLoading(false);
       }
@@ -28,6 +26,7 @@ export default function Profile() {
   }, []);
 
   if (loading) return <div className="p-6">Loading profile...</div>;
+  if (!user) return <div className="p-6 text-red-500">Failed to load profile.</div>;
 
   return (
     <div className="p-6">
@@ -40,7 +39,7 @@ export default function Profile() {
           />
         ) : (
           <div className="w-20 h-20 rounded-full bg-green-300 flex items-center justify-center font-bold text-white text-2xl">
-            {user.name[0]}
+            {user.name?.[0]}
           </div>
         )}
         <div>
