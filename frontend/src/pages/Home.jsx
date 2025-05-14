@@ -1,5 +1,5 @@
-import PostList from "../components/PostList";
+import Feed from "../components/Feed";
 
 export default function Home() {
-  return <PostList />;
+  return <Feed />;
 }
