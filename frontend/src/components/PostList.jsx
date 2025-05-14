@@ -14,7 +14,6 @@ export default function PostList() {
   return (
     <div>
       <h1 className="text-2xl font-bold mb-4 text-green-800">Chestnut Hill Posts</h1>
-      <div className="text-4xl text-red-600 font-bold">If this is red, Tailwind is working</div>
       {posts.length > 0 ? (
         posts.map((post) => <PostItem key={post.id} post={post} />)
       ) : (

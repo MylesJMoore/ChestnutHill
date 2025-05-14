@@ -1,5 +1,6 @@
 import { useEffect, useState } from "react";
 import { fetchWithAuth } from "../utils/api";
+import PostItem from "../components/PostItem";
 
 export default function Profile() {
   const [user, setUser] = useState(null);
@@ -29,38 +30,30 @@ export default function Profile() {
   if (!user) return <div className="p-6 text-red-500">Failed to load profile.</div>;
 
   return (
-    <div className="p-6">
-      <div className="flex items-center space-x-4 mb-4">
+    <div>
+      <div className="border-b border-gray-200 p-4 flex items-center space-x-4">
         {user.avatar_url ? (
           <img
             src={user.avatar_url}
             alt={user.name}
-            className="w-20 h-20 rounded-full object-cover border"
+            className="w-16 h-16 rounded-full object-cover border"
           />
         ) : (
-          <div className="w-20 h-20 rounded-full bg-green-300 flex items-center justify-center font-bold text-white text-2xl">
+          <div className="w-16 h-16 rounded-full bg-green-500 flex items-center justify-center text-white text-xl font-bold">
             {user.name?.[0]}
           </div>
         )}
         <div>
-          <h1 className="text-2xl font-bold">{user.name}</h1>
+          <h1 className="text-xl font-bold">{user.name}</h1>
           <p className="text-gray-600">{user.bio}</p>
         </div>
       </div>
 
       <div>
-        <h2 className="text-xl font-semibold mb-2">Your Posts</h2>
         {posts.length === 0 ? (
-          <p className="text-gray-500">No posts yet.</p>
+          <div className="p-4 text-gray-600">No posts yet.</div>
         ) : (
-          posts.map((post) => (
-            <div
-              key={post.id}
-              className="bg-white rounded-lg shadow p-4 mb-4 border"
-            >
-              <p className="text-gray-800">{post.content}</p>
-            </div>
-          ))
+          posts.map((post) => <PostItem key={post.id} post={post} />)
         )}
       </div>
     </div>
