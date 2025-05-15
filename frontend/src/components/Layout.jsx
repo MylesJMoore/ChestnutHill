@@ -19,7 +19,7 @@ export default function Layout({ children, onLogout }) {
       </aside>
 
       {/* Main Content */}
-      <main className="flex-1 border-r border-gray-200 min-h-screen">
+      <main className="flex-1 border-r border-gray-200 min-h-screen max-w-2xl mx-auto p-4">
         {children}
       </main>
 
