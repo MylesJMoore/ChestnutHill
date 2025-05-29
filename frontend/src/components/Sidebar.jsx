@@ -11,7 +11,9 @@ const navItems = [
 export default function Sidebar() {
   return (
     <div className="p-4 space-y-4">
-      <h1 className="text-2xl font-bold text-green-700 mb-8">Chestnut Hill</h1>
+      <Link to="/">
+        <h1 className="text-2xl font-bold text-green-700 mb-8 hover:text-green-500 transition-colors duration-500">Chestnut Hill</h1>
+      </Link>
       <nav className="space-y-2">
         {navItems.map((item) => (
           <Link
