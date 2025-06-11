@@ -10,14 +10,25 @@ class PostController extends Controller
 {
     public function index()
     {
+        \Log::info('Authenticated user ID: ' . Auth::id());
         $posts = Post::with([
             'user:id,name,avatar_path',
-            'comments.user:id,name,avatar_path'
+            'comments.user:id,name,avatar_path',
+            'likes',
+            'savedByUsers'
         ])
         ->withCount('likes')
         ->where('hidden', false)
-        ->latest()
+        ->orderBy('created_at', 'desc')
         ->get();
+
+        $userId = Auth::id();
+
+        $posts->transform(function ($post) use ($userId) {
+            $post->is_liked = $post->likes->contains('user_id', $userId);
+            $post->is_saved = $post->savedByUsers->contains($userId);
+            return $post;
+        });
 
         return response()->json($posts);
     }
