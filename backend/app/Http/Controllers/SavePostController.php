@@ -29,7 +29,18 @@ class SavePostController extends Controller
     public function savedPosts()
     {
         $user = Auth::user();
-        $posts = $user->savedPosts()->with(['user:id,name,avatar_path'])->latest()->get();
+        $posts = $user->savedPosts()
+            ->with(['user:id,name,avatar_path', 'likes', 'savedByUsers'])
+            ->withCount('likes')
+            ->latest()
+            ->get();
+
+        $posts->transform(function ($post) use ($user) {
+            $post->is_liked = $post->likes->contains('user_id', $user->id);
+            $post->is_saved = $post->savedByUsers->contains($user->id);
+            return $post;
+        });
+
         return response()->json($posts);
     }
 }
