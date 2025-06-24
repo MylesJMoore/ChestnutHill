@@ -24,6 +24,11 @@ export default function PostItem({ post }) {
   const formattedDate = dayjs(post.created_at).format("MMM D, YYYY");
   const fullDateTime = dayjs(post.created_at).format("MMMM D, YYYY h:mm A");
 
+  // Image URL Handling
+  const imageUrl = post.image
+  ? `http://127.0.0.1:8000/storage/${post.image}`
+  : null;
+
   // Local state for immediate feedback
   const [liked, setLiked] = useState(post.is_liked);
   const [saved, setSaved] = useState(post.is_saved);
@@ -88,6 +93,14 @@ export default function PostItem({ post }) {
         <p className="text-gray-800 mb-4 ml-14 whitespace-pre-line">
           <Linkify options={options}>{post.content}</Linkify>
         </p>
+
+        {imageUrl && (
+          <img
+            src={imageUrl}
+            alt="Post image"
+            className="mt-5 mb-5 max-h-100 rounded-lg max-w-full object-cover border border-gray-200 mx-auto"
+          />
+        )}
 
         <div className="flex items-center justify-around text-gray-500 mt-2">
           {/* Comment */}
