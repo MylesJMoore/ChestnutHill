@@ -12,14 +12,19 @@ class UserFactory extends Factory
      *
      * @return array
      */
-    public function definition()
+    public function definition(): array
     {
+        // Sample avatar filenames — you'll store these in storage/app/public/avatars/
+        $avatars = ['tobyfox.png', 'susie.png', 'ralsei.png', 'kris.png', 'lancer.png', 'myles.png'];
+        $avatar = $this->faker->randomElement($avatars);
+
         return [
             'name' => $this->faker->name(),
             'email' => $this->faker->unique()->safeEmail(),
             'email_verified_at' => now(),
-            'password' => '$2y$10$92IXUNpkjO0rOQ5byMi.Ye4oKoEa3Ro9llC/.og/at2.uheWG/igi', // password
+            'password' => bcrypt('password'), // All seeded users use the same password
             'remember_token' => Str::random(10),
+            'avatar_path' => $avatar,
         ];
     }
 
