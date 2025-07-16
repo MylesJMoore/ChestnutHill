@@ -2,19 +2,21 @@
 
 Chestnut Hill is a creative-first social media platform built with Laravel. It emphasizes psychological well-being, inspiration, and collaboration—combining the best of Twitter, Tumblr, and Pinterest. This README outlines the backend API endpoints built in **Phase 1** of the project.
 
----
+Chestnut Hill is a portfolio-grade project built to explore full-stack creativity—spanning backend (Laravel), frontend (React), DevOps, AI/ML, and scalable cloud architecture.
+
+## Built with love and chlorophyll!
 
 ## Technologies Used
 
--   Laravel 10
--   PHP 8.x
--   Laravel Sanctum for authentication
--   MySQL / MariaDB (or compatible)
--   Postman for API testing
+- Laravel 10
+- PHP 8.x
+- Laravel Sanctum for authentication
+- MySQL / MariaDB (or compatible)
+- Postman for API testing
 
 ---
 
-## 🚀 Getting Started (Local Setup)
+## Getting Started (Local Setup)
 
 ### 1. Clone & Install
 
@@ -47,6 +49,31 @@ Then run migrations:
 php artisan migrate
 ```
 
+**Seeding the Database**
+To populate your local database with test data:
+
+```bash
+php artisan db:seed
+```
+
+This will:
+
+- Create 10 test users with names and avatars
+- Create random posts per user (some with images)
+- Create an admin account:
+
+  - Email: admin@example.com
+  - Password: password
+
+- Randomly assign likes and saved posts
+- Images used are pulled from /storage/avatars and /storage/posts.
+
+If you encounter storage errors, run:
+
+```bash
+php artisan storage:link
+```
+
 ### 3. Serve Locally
 
 ```bash
@@ -57,6 +84,16 @@ App will be accessible at `http://127.0.0.1:8000`
 
 ---
 
+### Frontend Setup
+
+The React frontend lives in /frontend. Use Vite to run it:
+
+```bash
+cd ../frontend
+npm install
+npm run dev
+```
+
 ## Authentication & User Endpoints
 
 ### Register a new user
@@ -65,10 +102,10 @@ App will be accessible at `http://127.0.0.1:8000`
 
 ```json
 {
-    "name": "John Doe",
-    "email": "john@example.com",
-    "password": "password",
-    "password_confirmation": "password"
+  "name": "John Doe",
+  "email": "john@example.com",
+  "password": "password",
+  "password_confirmation": "password"
 }
 ```
 
@@ -78,8 +115,8 @@ App will be accessible at `http://127.0.0.1:8000`
 
 ```json
 {
-    "email": "john@example.com",
-    "password": "password"
+  "email": "john@example.com",
+  "password": "password"
 }
 ```
 
@@ -99,8 +136,8 @@ Response includes a `token` you must include in future requests as a Bearer toke
 
 ```json
 {
-    "name": "New Name",
-    "bio": "Creative developer and artist."
+  "name": "New Name",
+  "bio": "Creative developer and artist."
 }
 ```
 
@@ -108,7 +145,7 @@ Response includes a `token` you must include in future requests as a Bearer toke
 
 `POST /api/profile/avatar` (form-data)
 
--   `avatar` → File (image/png, image/jpeg, etc.)
+- `avatar` → File (image/png, image/jpeg, etc.)
 
 ---
 
@@ -122,8 +159,8 @@ Response includes a `token` you must include in future requests as a Bearer toke
 
 `POST /api/posts` (form-data)
 
--   `content`: string (required)
--   `image`: file (optional)
+- `content`: string (required)
+- `image`: file (optional)
 
 ### View a post by ID
 
@@ -133,7 +170,7 @@ Response includes a `token` you must include in future requests as a Bearer toke
 
 `PUT /api/posts/{id}` (form-data)
 
--   Only if you are the owner
+- Only if you are the owner
 
 ### Delete a post
 
@@ -161,7 +198,7 @@ Response includes a `token` you must include in future requests as a Bearer toke
 
 ```json
 {
-    "content": "This is great!"
+  "content": "This is great!"
 }
 ```
 
@@ -231,52 +268,46 @@ Response includes a `token` you must include in future requests as a Bearer toke
 
 ---
 
-## 🔐 Postman Collection & Environments
+## Postman Collection & Environments
 
 Use the provided Postman collection (exported from your Postman workspace).
 
-### ✅ Environment Variable Tips:
+### Environment Variable Tips:
 
--   Create a new environment in Postman with:
+- Create a new environment in Postman with:
 
 ```env
 base_url = http://127.0.0.1:8000/api
 token = (value returned from /login)
 ```
 
--   Set your `Authorization` type to `Bearer Token`, and use `{{token}}`.
+- Set your `Authorization` type to `Bearer Token`, and use `{{token}}`.
 
 ---
 
-## 📘 Future Enhancements
+## Future Enhancements
 
 ### Phase 2
 
--   Badge system for engagement
--   Tagging, portfolios, multiple image posts
--   Curated feeds, event-based badges, notifications
+- Badge system for engagement
+- Tagging, portfolios, multiple image posts
+- Curated feeds, event-based badges, notifications
 
 ### Phase 3
 
--   AI/ML auto-tagging and moderation
--   Personalized feed algorithm
--   Python for stress testing, AI suggestions
--   Optional Node.js or Elixir services
--   Accessibility improvements and multilingual support
+- AI/ML auto-tagging and moderation
+- Personalized feed algorithm
+- Python for stress testing, AI suggestions
+- Optional Node.js or Elixir services
+- Accessibility improvements and multilingual support
 
 ---
 
 ## API Security Notes
 
--   Graceful error handling (404s, validation, unauthorized)
--   No SQL schema leaks in error responses
--   Future hardening planned with observability tooling (e.g., Datadog)
-
----
-
-## About the Project
-
-Chestnut Hill is an evolving platform to explore healthier digital communities. Initially built with Laravel and PHP, it’s structured to grow into a cross-stack platform with TypeScript, Python, Elixir, and scalable cloud services.
+- Graceful error handling (404s, validation, unauthorized)
+- No SQL schema leaks in error responses
+- Future hardening planned with observability tooling (e.g., Datadog)
 
 ---
 
