@@ -9,7 +9,7 @@ const navItems = [
 
 export default function Sidebar({ onLogout }) {
   return (
-    <div className="p-4 space-y-4">
+    <div className="p-4 space-y-4 hidden sticky top-0 md:block">
       <Link to="/">
         <h1 className="text-2xl font-bold text-green-700 mb-8 hover:text-green-500 transition-colors duration-500">
           Chestnut Hill
