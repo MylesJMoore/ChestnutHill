@@ -3,6 +3,7 @@ import { useState, useEffect } from "react";
 import Home from "./pages/Home";
 import Profile from "./pages/Profile";
 import Login from "./pages/Login";
+import Signup from "./pages/Signup";
 import Saved from "./pages/Saved";
 import Layout from "./components/Layout";
 import ProtectedRoute from "./components/ProtectedRoute";
@@ -35,6 +36,8 @@ function App() {
           path="/login"
           element={token ? <Navigate to="/" /> : <Login onLogin={handleLogin} />}
         />
+
+        <Route path="/signup" element={<Signup />} />
 
         <Route
           path="/"
