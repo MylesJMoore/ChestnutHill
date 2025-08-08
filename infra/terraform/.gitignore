@@ -1,9 +1,23 @@
+# Terraform
 .terraform/
 *.tfstate
 *.tfstate.*
 crash.log
-override.tf
-override.tf.json
-*.override.tf
-*.override.tf.json
+override.tf*
 .terraform.lock.hcl
+
+# AWS creds / secrets / env
+infra/terraform/global/backend-bootstrap/aws/
+*.pem
+*.key
+*.p12
+*.crt
+*.csr
+.env
+*.env
+*.tfvars
+*.tfvars.json
+
+# OS/IDE
+.DS_Store
+Thumbs.db
