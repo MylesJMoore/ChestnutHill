@@ -121,6 +121,6 @@ Seeing the `hello` output confirmed that our remote backend is working exactly a
 
 ### Analysis:
 
-This incident mirrors a realistic production scenario in which an engineer detects a possible security exposure in version control.  
+This incident mirrors a realistic production scenario in which an engineer detects a possible security exposure in version control and also serves as a postmortem analysis.  
 By acting quickly to rotate credentials, remove unneeded files from source control, and put preventative measures in place, the issue was contained with minimal disruption.  
 The rapid detection–mitigation–prevention cycle demonstrates familiarity with cloud security best practices, incident response workflows, and disciplined DevOps hygiene.
