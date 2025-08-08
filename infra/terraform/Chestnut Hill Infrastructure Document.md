@@ -5,7 +5,7 @@ The goal is to make the app production-ready, scalable, and well-monitored.
 
 ---
 
-## 📅 2025-08-07 — Phase 3 Kickoff
+## 2025-08-07 — Phase 3 Kickoff
 
 **Goal:** Set up Terraform with remote state management for AWS infrastructure.
 
@@ -76,10 +76,51 @@ After setting up the backend, we deployed a **minimal dev environment stack** in
 
 Seeing the `hello` output confirmed that our remote backend is working exactly as intended. By doing this before building anything else, we’ve set up a reliable foundation that allows multiple environments (dev, prod) to share the same approach, reduces manual errors, and supports automation later via CI/CD pipelines — while also protecting against surprise bills and accidental misuse of the root account.
 
-## By doing this before building anything else, we’ve set up a reliable foundation that allows multiple environments (dev, prod) to share the same approach, reduces manual errors, and supports automation later via CI/CD pipelines — while also protecting against surprise bills and accidental misuse of the root account.
+### By doing this before building anything else, we’ve set up a reliable foundation that allows multiple environments (dev, prod) to share the same approach, reduces manual errors, and supports automation later via CI/CD pipelines — while also protecting against surprise bills and accidental misuse of the root account.
 
-## 📅 Next Planned Step
+## Next Planned Step
 
 - Create **VPC** with public/private subnets, internet/NAT gateways, and security groups.
 - Create **ECR** repository for storing Docker images (Laravel & React).
 - Begin **EKS cluster** deployment.
+
+---
+
+## 2025-08-07 — AWS Secrets Exposure Detected and Mitigated
+
+**Goal:** Address a potential AWS secrets exposure in the Terraform bootstrap folder.
+
+### Actions:
+
+1. **Detection:**
+
+   - While reviewing the `global/backend-bootstrap` directory in GitHub, noticed that the AWS CLI installer directory (`aws/`) had been committed.
+   - Although no active credentials were present in the committed files, confirmed this folder was unnecessary for infrastructure code.
+
+2. **Mitigation:**
+
+   - Immediately rotated and deleted the AWS IAM access keys associated with the Terraform service account to eliminate any potential risk.
+   - Verified new credentials worked via:
+     ```bash
+     aws sts get-caller-identity
+     ```
+   - Removed the `infra/terraform/global/backend-bootstrap/aws/` directory from Git tracking.
+   - Updated `.gitignore` to permanently exclude this directory and other sensitive file patterns (e.g., `.tfvars`, `.env`, key files).
+
+3. **Prevention:**
+   - Implemented `.gitignore` rules to prevent accidental future commits of AWS installers, credentials, or sensitive configuration files.
+   - Added this incident to the changelog as documentation of the detection and remediation process.
+   - Plan to optionally perform a full git history cleanup in a later maintenance window to permanently remove the folder from all past commits.
+
+### Outcome:
+
+- Potential secrets exposure fully mitigated.
+- AWS IAM keys rotated and confirmed secure.
+- Future commits protected by `.gitignore` rules.
+- Process documented for transparency and as a portfolio example of real-world incident handling.
+
+### Analysis:
+
+This incident mirrors a realistic production scenario in which an engineer detects a possible security exposure in version control.  
+By acting quickly to rotate credentials, remove unneeded files from source control, and put preventative measures in place, the issue was contained with minimal disruption.  
+The rapid detection–mitigation–prevention cycle demonstrates familiarity with cloud security best practices, incident response workflows, and disciplined DevOps hygiene.
