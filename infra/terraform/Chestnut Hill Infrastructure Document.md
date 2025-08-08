@@ -118,6 +118,7 @@ Seeing the `hello` output confirmed that our remote backend is working exactly a
 - AWS IAM keys rotated and confirmed secure.
 - Future commits protected by `.gitignore` rules.
 - Process documented for transparency and as a portfolio example of real-world incident handling.
+- Postmortem Analysis.
 
 ### Analysis:
 
