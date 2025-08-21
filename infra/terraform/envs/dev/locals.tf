@@ -1,6 +1,6 @@
 locals {
-  project      = "ChestnutHill"
-  environment  = "dev"
+  project     = "ChestnutHill"
+  environment = "dev"
 
   tags = {
     Project = local.project
