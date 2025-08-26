@@ -90,3 +90,56 @@ resource "aws_ecr_lifecycle_policy" "frontend" {
 
   depends_on = [module.ecr_frontend] # ✅ ensure repo exists first
 }
+
+############################################
+# S3 for images (dev) — $0 when empty
+############################################
+module "s3_images" {
+  source  = "terraform-aws-modules/s3-bucket/aws"
+  version = "~> 4.1"
+
+  bucket        = "${lower(local.project)}-${local.environment}-images-${random_string.suffix.result}"
+  force_destroy = false
+
+  # Security defaults
+  block_public_acls       = true
+  block_public_policy     = true
+  ignore_public_acls      = true
+  restrict_public_buckets = true
+
+  server_side_encryption_configuration = {
+    rule = {
+      apply_server_side_encryption_by_default = { sse_algorithm = "AES256" }
+    }
+  }
+
+  tags = local.tags
+}
+
+resource "random_string" "suffix" {
+  length  = 6
+  upper   = false
+  special = false
+}
+
+############################################
+# SSM Parameter Store (Standard) for secrets — free
+############################################
+resource "aws_ssm_parameter" "app_key" {
+  name        = "/chestnuthill/dev/APP_KEY"
+  description = "Laravel app key (dev)"
+  type        = "String" # use "SecureString" for encryption; Standard is still free, but KMS requests can incur tiny cost
+  value       = "to-be-set"
+  overwrite   = true
+  tags        = local.tags
+}
+
+resource "aws_ssm_parameter" "db_password" {
+  name        = "/chestnuthill/dev/DB_PASSWORD"
+  description = "DB password (dev)"
+  type        = "String"
+  value       = "secret"
+  overwrite   = true
+  tags        = local.tags
+}
+

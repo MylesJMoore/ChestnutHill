@@ -1,0 +1,60 @@
+version: "3.9"
+services:
+  app:
+    build:
+      context: ./backend
+      dockerfile: Dockerfile
+    container_name: ch_app
+    depends_on: [db, redis]
+    environment:
+      APP_ENV: local
+      APP_DEBUG: "true"
+      APP_KEY: ${APP_KEY:-base64:PLACEHOLDER} # set after first run
+      DB_CONNECTION: pgsql
+      DB_HOST: db
+      DB_PORT: 5432
+      DB_DATABASE: chestnuthill
+      DB_USERNAME: chestnut
+      DB_PASSWORD: secret
+      REDIS_HOST: redis
+      REDIS_PORT: 6379
+    volumes:
+      - ./backend:/var/www/html
+    networks: [ch]
+
+  web:
+    image: nginx:alpine
+    container_name: ch_web
+    depends_on: [app]
+    ports:
+      - "8080:80"
+    volumes:
+      - ./backend:/var/www/html:ro
+      - ./backend/nginx.conf:/etc/nginx/conf.d/default.conf:ro
+    networks: [ch]
+
+  db:
+    image: postgres:16-alpine
+    container_name: ch_db
+    environment:
+      POSTGRES_DB: chestnuthill
+      POSTGRES_USER: chestnut
+      POSTGRES_PASSWORD: secret
+    ports:
+      - "5432:5432"
+    volumes:
+      - pgdata:/var/lib/postgresql/data
+    networks: [ch]
+
+  redis:
+    image: redis:7-alpine
+    container_name: ch_redis
+    ports:
+      - "6379:6379"
+    networks: [ch]
+
+volumes:
+  pgdata:
+
+networks:
+  ch:
