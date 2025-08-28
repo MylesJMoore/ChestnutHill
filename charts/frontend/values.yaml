@@ -1,0 +1,23 @@
+image:
+  repository: 629143593430.dkr.ecr.us-east-1.amazonaws.com/ch-frontend
+  tag: "dev"
+  pullPolicy: IfNotPresent
+
+replicaCount: 1
+
+service:
+  type: ClusterIP
+  port: 80
+
+resources: {}
+
+env: {}
+
+ingress:
+  enabled: false
+  className: alb
+  hosts:
+    - host: app.example.com
+      paths:
+        - path: /
+          pathType: Prefix

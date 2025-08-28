@@ -1,0 +1,27 @@
+image:
+  repository: 629143593430.dkr.ecr.us-east-1.amazonaws.com/ch-backend
+  tag: "dev"            # change in CI per commit later
+  pullPolicy: IfNotPresent
+
+replicaCount: 1
+
+service:
+  type: ClusterIP
+  port: 80
+
+resources: {}           # keep empty for now
+
+env:
+  APP_ENV: "production"
+  APP_DEBUG: "false"
+  # For real clusters, wire SSM/Secrets here via K8s Secrets.
+  # DB_HOST, DB_NAME, DB_USER, DB_PASSWORD, REDIS_HOST, etc.
+
+ingress:
+  enabled: false
+  className: alb
+  hosts:
+    - host: api.example.com
+      paths:
+        - path: /
+          pathType: Prefix

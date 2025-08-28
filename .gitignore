@@ -17,3 +17,13 @@ backend/node_modules/public-encrypt/test/test_rsa_privkey.pem
 
 # Do not commit installers
 infra/terraform/global/backend-bootstrap/aws/
+
+# Terraform
+.terraform/
+terraform.tfstate*
+crash.log
+
+# Env files
+*.env
+backend/.env
+frontend/.env

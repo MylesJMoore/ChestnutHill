@@ -125,3 +125,32 @@ Seeing the `hello` output confirmed that our remote backend is working exactly a
 This incident mirrors a realistic production scenario in which an engineer detects a possible security exposure in version control and also serves as a postmortem analysis.  
 By acting quickly to rotate credentials, remove unneeded files from source control, and put preventative measures in place, the issue was contained with minimal disruption.  
 The rapid detection–mitigation–prevention cycle demonstrates familiarity with cloud security best practices, incident response workflows, and disciplined DevOps hygiene.
+
+---
+
+## 2025-08-28 — Completing the full DevOps Skeleton
+
+### Actions:
+
+### Added Helm Chart Skeletons
+
+Created infra/helm/backend/ and infra/helm/frontend/ with:
+
+- Chart.yaml describing each app
+- values.yaml defining image references, replica count, service type, etc.
+- Deployment + Service manifests using values.yaml for flexibility
+  Backend points to Laravel API container
+  Frontend points to React container
+  Both expose services internally (ClusterIP) with clean separation for dev/prod
+
+### Added Dockerfile for React Frontend
+
+Multi-stage Docker build (Node → Nginx) for efficient image size
+Output React dist/ into Nginx static host
+.dockerignore added to keep images lean (node_modules, build junk, OS files)
+
+### Skipped Actual Docker/ECR Push
+
+Decided not to build/push images since local machine lacks Hyper-V/WSL for Docker
+Portfolio value is in scaffolding + manifests, not running infra
+Helm and Dockerfile prove readiness to containerize
