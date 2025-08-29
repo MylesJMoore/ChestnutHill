@@ -1,9 +1,18 @@
 # ----- Build stage: install PHP deps with Composer -----
 FROM composer:2 AS vendor
 WORKDIR /app
-COPY composer.json composer.lock ./
-RUN composer install --no-dev --no-interaction --prefer-dist --no-scripts
-# copy the rest to let post-autoload-dump run later
+
+# Avoid permissions warnings in CI
+ENV COMPOSER_ALLOW_SUPERUSER=1
+
+# Copy composer manifests (lock file may not exist locally)
+COPY composer.json composer.lock* ./
+
+# Install prod deps (no scripts yet); works with or without lock
+RUN composer install --no-dev --no-interaction --prefer-dist --no-scripts || \
+    composer update --no-dev --no-interaction --prefer-dist --no-scripts
+
+# Copy the rest and optimize autoload
 COPY . .
 RUN composer dump-autoload --optimize
 
@@ -19,7 +28,7 @@ RUN apk add --no-cache \
     && docker-php-ext-install -j$(nproc) \
     bcmath exif intl mbstring pcntl zip gd pdo pdo_pgsql opcache
 
-# Opcache for perf (still fine for local)
+# Opcache (fine for dev/prod)
 RUN { \
     echo 'opcache.enable=1'; \
     echo 'opcache.validate_timestamps=1'; \
