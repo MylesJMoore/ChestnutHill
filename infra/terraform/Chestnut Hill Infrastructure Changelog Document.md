@@ -154,3 +154,21 @@ Output React dist/ into Nginx static host
 Decided not to build/push images since local machine lacks Hyper-V/WSL for Docker
 Portfolio value is in scaffolding + manifests, not running infra
 Helm and Dockerfile prove readiness to containerize
+
+---
+
+## Date: 2025-09-02
+
+### Change: Added automated security workflows to GitHub repository.
+
+- Enabled Dependabot to automatically scan for dependency updates (Composer, NPM, and GitHub Actions).
+
+- Configured CodeQL for static analysis of PHP and JavaScript code to catch vulnerabilities.
+
+- Added optional Trivy job to scan Dockerfiles and container dependencies for CVEs.
+
+- All workflows run on GitHub Actions → $0 cost to AWS or infrastructure.
+
+### What is the value here?
+
+- Demonstrates real-world DevSecOps integration, proactive security hygiene, and automated remediation pipeline.
