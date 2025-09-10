@@ -1,6 +1,11 @@
 version: 2
-updates: []
+updates:
+# This is disabled by setting the directory to a non-existent one
+  - package-ecosystem: "npm"
+    directory: "/__dependabot_disabled__"
+    schedule: { interval: "yearly" }
 #
+# Original config preserved below:
 #   - package-ecosystem: "composer"
 #     directory: "/backend"
 #     schedule: { interval: "weekly" }
