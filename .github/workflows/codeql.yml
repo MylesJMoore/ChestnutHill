@@ -1,12 +1,14 @@
 name: "CodeQL"
 
 on:
-  push:
-    branches: ["main"]
-  pull_request:
-    branches: ["main"]
-  schedule:
-    - cron: "0 2 * * 1" # Weekly scan on Mondays at 2am UTC
+  workflow_dispatch:
+
+#  push:
+#    branches: ["main"]
+#  pull_request:
+#    branches: ["main"]
+#  schedule:
+#    - cron: "0 2 * * 1" # Weekly scan on Mondays at 2am UTC
 
 jobs:
   analyze:
