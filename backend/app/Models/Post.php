@@ -30,4 +30,9 @@ class Post extends Model
     {
         return $this->belongsToMany(User::class, 'post_user_saves')->withTimestamps();
     }
+
+    public function aiMetadata()
+    {
+        return $this->hasOne(\App\Models\PostAIMetadata::class);
+    }
 }
